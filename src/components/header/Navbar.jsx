@@ -5,6 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiSolidContact } from "react-icons/bi";
 import { GrDeliver } from "react-icons/gr";
+import Theme from "./Theme";
 
 const Navbar = () => {
   const activeClass = ({ isActive }) =>
@@ -16,19 +17,24 @@ const Navbar = () => {
     isActive ? "btn capitalize btn-neutral btn-sm" : "btn btn-sm capitalize";
 
   const bottomNavActive = ({ isActive }) =>
-    isActive ? "active bg-blue-200 border-none text-pink-600" : " text-black";
+    isActive
+      ? "active bg-[#1c1c1c] border-none text-pink-600 text-xs"
+      : "text-xs";
 
   return (
     <nav className="bg-base-300 w-full mt-8">
       <div className="navbar align-element max-w-6xl mx-auto  max-sm:px-4 max-xl:px-12">
         {/* START NAVBAR */}
-        <div className="navbar-start">
+        <div className="navbar-start max-sm:w-full flex justify-between">
           <Link
             to="/"
             className="xl:text-lg text-xl bg-primary text-white py-2 px-4 flex items-center rounded-md uppercase"
           >
             Shopify
           </Link>
+          <span className="md:hidden flex">
+            <Theme />
+          </span>
         </div>
 
         {/* MIDDLE NAVBAR */}
@@ -45,7 +51,7 @@ const Navbar = () => {
         {/* END NAVBAR */}
         <div className="navbar-end hidden md:flex space-x-4">
           {/* 1. cart 2. orders 3. logout */}
-
+          <Theme />
           <span className="indicator">
             <span className="indicator-item badge badge-secondary">1</span>
             <NavLink to="cart" className={activeCart}>
@@ -73,7 +79,7 @@ const Navbar = () => {
               <span className="indicator-item badge badge-secondary badge-xs">
                 20
               </span>
-              <FaShoppingCart />
+              <FaShoppingCart size={20} />
             </span>
             Cart
           </NavLink>
