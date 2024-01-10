@@ -1,13 +1,73 @@
-import React from "react";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Loader, RootLayout } from "./components";
+import { Home, Contact } from "./pages";
+
+const OrderHistory = lazy(() => import("./pages/OrderHistory"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Login = lazy(() => import("./pages/auth/Login"));
+const Register = lazy(() => import("./pages/auth/Register"));
+const Reset = lazy(() => import("./pages/auth/Reset"));
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "cart",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Cart />
+          </Suspense>
+        ),
+      },
+      {
+        path: "order-history",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OrderHistory />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Register />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/reset",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Reset />
+      </Suspense>
+    ),
+  },
+]);
 
 const App = () => {
-  return (
-    <div className="">
-      <button class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3 text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">
-        Button
-      </button>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
