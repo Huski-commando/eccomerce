@@ -10,7 +10,10 @@ const Theme = () => {
     dispatch(toggleTheme());
   };
   return (
-    <div className="border p-2 flex justify-center items-center border-black rounded-md ">
+    <div
+      className="border p-2 flex justify-center items-center border-black rounded-md cursor-pointer"
+      onClick={handleToggle}
+    >
       <label className="swap swap-rotate">
         <input type="checkbox" onClick={handleToggle} />
         {/* sun icon*/}

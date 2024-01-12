@@ -6,3 +6,4 @@ export { default as PasswordStrengthItem } from "./PasswordStrengthItem";
 export { default as Theme } from "./header/Theme";
 export { default as Title } from "./Title";
 export { default as RootLayout } from "./RootLayout";
+export { default as Button } from "./Button";

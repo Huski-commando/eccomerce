@@ -10,11 +10,13 @@ import Theme from "./Theme";
 const Navbar = () => {
   const activeClass = ({ isActive }) =>
     isActive
-      ? "btn lg:btn-md md:btn-sm capitalize btn-neutral"
-      : "btn btn-ghost lg:btn-md md:btn-sm capitalize";
+      ? "btn lg:btn-md md:btn-sm capitalize btn-neutral xl:text-lg"
+      : "btn btn-ghost lg:btn-md md:btn-sm capitalize xl:text-lg";
 
   const activeCart = ({ isActive }) =>
-    isActive ? "btn capitalize btn-neutral btn-sm" : "btn btn-sm capitalize";
+    isActive
+      ? "btn capitalize btn-neutral btn-sm xl:text-md"
+      : "btn btn-sm capitalize xl:text-md";
 
   const bottomNavActive = ({ isActive }) =>
     isActive
@@ -28,7 +30,7 @@ const Navbar = () => {
         <div className="navbar-start max-sm:w-full flex justify-between">
           <Link
             to="/"
-            className="xl:text-lg text-xl bg-primary text-white py-2 px-4 flex items-center rounded-md uppercase"
+            className="xl:text-lg text-xl bg-primary text-white py-2 px-4 flex items-center rounded-md font-semibold tracking-widest uppercase"
           >
             Shopify
           </Link>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigation, Outlet } from "react-router-dom";
-import { Header, Footer } from "./index";
+import { Header, Footer, Loader } from "./index";
 import Navbar from "./header/Navbar";
 
 const RootLayout = () => {

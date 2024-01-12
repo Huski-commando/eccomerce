@@ -5,8 +5,8 @@ import { Home, Contact } from "./pages";
 
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 const Cart = lazy(() => import("./pages/Cart"));
-const Login = lazy(() => import("./pages/auth/Login"));
-const Register = lazy(() => import("./pages/auth/Register"));
+const Login = lazy(() => import("./pages/Auth/Login"));
+const Register = lazy(() => import("./pages/Auth/Register"));
 const Reset = lazy(() => import("./pages/auth/Reset"));
 
 const router = createBrowserRouter([
