@@ -85,9 +85,11 @@ const Login = () => {
             {/* {isSubmitting ? <Loader /> : "Login"} */}
             Login
           </button>
-          <div className="btn btn-neutral w-full text-lg uppercase">
-            <Link to="/">Back to Home</Link>
-          </div>
+          <Link to="/">
+            <div className="btn btn-neutral w-full text-lg uppercase">
+              Back to Home
+            </div>
+          </Link>
 
           <p className="text-md hover:underline">
             <Link to="/reset">Reset Password</Link>
