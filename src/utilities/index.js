@@ -16,7 +16,7 @@ export const NavLinks = [
 export const headerVariants = {
   hidden: {
     opacity: 0,
-    y: "-50%",
+    y: -50,
   },
   visible: {
     opacity: 1,
@@ -31,31 +31,26 @@ export const headerVariants = {
 export const imageVariant = {
   hidden: {
     opacity: 0,
-    y: -100,
+    y: -50,
   },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 1,
-      delay: 0.2,
-      // ease: [0.25, 0.1, 0.25, 1],
-    },
+    transition: {},
   },
 };
 
 export const formVariant = {
   hidden: {
     opacity: 0,
-    y: 150,
+    y: 50,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1,
-      delay: 0.3,
-      // ease: [0.25, 0.1, 0.25, 1],
+      ease: "linear",
+      duration: 0.5,
     },
   },
 };
@@ -69,9 +64,17 @@ export const passwordVariant = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1,
+      duration: 0.5,
       // delay: 0.3,
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
 };
+
+export const borderVariants = {
+  hidden: { borderBottomWidth: 0 },
+  visible: { hover: { borderBottomWidth: 2 } },
+};
+export const bottomNavVariants = {
+  
+}

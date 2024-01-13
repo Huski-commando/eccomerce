@@ -1,7 +1,10 @@
-import React from "react";
+import React, { memo, useEffect } from "react";
 
-const Title = () => {
-  return <div>Title</div>;
+const Title = ({ title }) => {
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+  return null;
 };
 
-export default Title;
+export default memo(Title);

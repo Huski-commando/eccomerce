@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { DevTool } from "@hookform/devtools";
-import { formVariant, imageVariant, passwordVariant } from "../../utilities";
+import { formVariant, passwordVariant } from "../../utilities";
 import { toast } from "react-toastify";
-import { Loader, Button, PasswordStrengthItem } from "../../components";
-import { FaGoogle } from "react-icons/fa";
+import { Loader, PasswordStrengthItem, Title } from "../../components";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/config";
 
 import loginImg from "../../assets/images/login.png";
+import { useSelector } from "react-redux";
 
 const schema = yup.object({
   email: yup
@@ -31,6 +33,14 @@ const Register = () => {
   const [pass, setPass] = useState("");
   const navigate = useNavigate();
 
+  const { userId } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userId) {
+      navigate("/");
+    }
+  }, [userId, navigate]);
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -43,10 +53,6 @@ const Register = () => {
   const { register, control, formState, handleSubmit } = form;
   const { errors } = formState;
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   const passwordStrengthConditions = {
     passLetter: pass.match(/^([a-z].*[A-Z])|([A-Z].*[a-z])/),
     passNumber: pass.match(/([0-9])/),
@@ -58,15 +64,36 @@ const Register = () => {
     setPass(e.target.value);
   };
 
+  const onSubmit = (data) => {
+    // console.log(data);
+    let email = data.email;
+    let password = data.password;
+    setIsLoading(true);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        navigate("/login");
+        toast.success("User registered successfully...");
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        setIsLoading(false);
+      });
+  };
+
   return (
     <>
       {isLoading && <Loader />}
-      <div className="max-w-5xl mx-auto flex justify-center items-center  h-[95vh] gap-4">
+      <Title title="Register Page" />
+
+      <div className="max-w-5xl mx-auto flex justify-center items-center max-sm:h-[100vh] h-[95vh] gap-4">
         {/* form */}
 
         <motion.div
-          className="card w-[20rem] md:w-[30rem] bg-base-200 shadow-xl py-8"
-          variants={imageVariant}
+          className="card w-[20rem] md:w-[30rem] bg-base-200 shadow-md py-8"
+          variants={formVariant}
           initial="hidden"
           animate="visible"
         >
@@ -76,7 +103,7 @@ const Register = () => {
 
           <motion.form
             noValidate
-            className="flex flex-col gap-3 w-full px-12"
+            className="flex flex-col gap-3 w-full px-12 max-sm:px-8"
             onSubmit={handleSubmit(onSubmit)}
             variants={formVariant}
             initial="hidden"
@@ -86,7 +113,7 @@ const Register = () => {
               <input
                 type="email"
                 placeholder="Email"
-                className="input input-bordered"
+                className="input input-bordered "
                 {...register("email")}
               />
               <p className="text-error">{errors.email?.message}</p>
@@ -114,7 +141,6 @@ const Register = () => {
             </div>
 
             <button className="btn btn-primary w-full text-lg uppercase">
-              {/* {isSubmitting ? <Loader /> : "Login"} */}
               Register
             </button>
           </motion.form>

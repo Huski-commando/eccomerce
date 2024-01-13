@@ -1,11 +1,11 @@
 import React from "react";
 
-import LinearProgress from "@mui/material/LinearProgress";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Loader = () => {
   return (
     <div className="flex justify-center items-center h-[100vh]">
-      <LinearProgress />
+      <CircularProgress />
     </div>
   );
 };
