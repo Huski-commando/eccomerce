@@ -4,7 +4,7 @@ import DrawOutlineButton from "./hoc/DrawOutlineButton";
 
 const AdminButton = () => {
   return (
-    <div className="grid  ">
+    <div className="hidden md:flex">
       <DrawOutlineButton>
         <NavLink to="/admin" className="text-red-500">
           Admin

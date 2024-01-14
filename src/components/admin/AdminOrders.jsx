@@ -1,7 +1,7 @@
 import React from "react";
 
 const AdminOrders = () => {
-  return <div>AdminOrders</div>;
+  return <div className="mt-8">AdminOrders</div>;
 };
 
 export default AdminOrders;

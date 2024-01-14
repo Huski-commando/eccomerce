@@ -1,7 +1,7 @@
 import React from "react";
 
 const ViewAdminProducts = () => {
-  return <div>ViewAdminProducts</div>;
+  return <div className="mt-8">ViewAdminProducts</div>;
 };
 
 export default ViewAdminProducts;
