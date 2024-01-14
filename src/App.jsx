@@ -1,8 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { Loader, RootLayout } from "./components";
-import { Home, Contact } from "./pages";
+import { Home, Contact, Admin } from "./pages";
 import Account from "./components/header/Account";
+import AdminOnlyRoute from "./components/admin/AdminOnlyRoute";
 
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -68,6 +69,11 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/admin/*",
+    element: <Admin />,
+    children: [],
   },
 ]);
 

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_ACTIVE_USER, SET_REMOVE_USER } from "../../redux/slice/authSlice";
 import AdminButton from "../AdminButton";
-import AdminOnlyRoute from "../hoc/AdminOnlyRoute";
+import AdminOnlyRoute from "../admin/AdminOnlyRoute";
 
 const Header = () => {
   const navigate = useNavigate();
