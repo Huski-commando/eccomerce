@@ -50,7 +50,6 @@ const Login = () => {
   const { errors, isSubmitting } = formState;
 
   const onSubmit = (data) => {
-    console.log(data);
     let email = data.email;
     let password = data.password;
     setIsLoading(true);
@@ -76,7 +75,6 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
         toast.success("User logged in successfully...");
         navigate("/");
       })
@@ -89,7 +87,7 @@ const Login = () => {
     <>
       {isLoading && <Loader />}
       <Title title="Login Page" />
-      <div className="max-w-5xl mx-auto flex justify-center items-center max-sm:h-[100vh] h-[95vh] gap-4">
+      <div className="max-w-5xl mx-auto flex justify-center items-center max-sm:h-[100vh] h-[95vh] gap-4 mb-2">
         {/* form */}
         <motion.div
           className="card w-[20rem] bg-base-200 md:w-[30rem] shadow-sm hover:shadow-md  py-8 max-sm:py-4"
@@ -162,7 +160,7 @@ const Login = () => {
           </div>
         </motion.div>
 
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
       </div>
     </>
   );

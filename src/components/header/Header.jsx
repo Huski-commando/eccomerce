@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { Link, NavLink, useNavigate, useNavigation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { borderVariants, headerVariants } from "../../utilities";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -7,6 +7,8 @@ import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_ACTIVE_USER, SET_REMOVE_USER } from "../../redux/slice/authSlice";
+import AdminButton from "../AdminButton";
+import AdminOnlyRoute from "../hoc/AdminOnlyRoute";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -80,6 +82,10 @@ const Header = () => {
             initial="hidden"
             animate="visible"
           >
+            <AdminOnlyRoute>
+              <AdminButton />
+            </AdminOnlyRoute>
+
             {isLoggedIn ? (
               <h1 className="text-center text-sm">Hi {userName}</h1>
             ) : (

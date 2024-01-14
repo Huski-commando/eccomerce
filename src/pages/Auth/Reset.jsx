@@ -111,7 +111,7 @@ const Reset = () => {
           </div>
         </motion.div>
 
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
       </div>
     </>
   );

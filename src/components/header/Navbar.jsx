@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <>
       <motion.nav
-        className="bg-base-300 w-full mt-8"
+        className="bg-base-300 w-full mt-8 md:fixed top-0"
         variants={headerVariants}
         initial="hidden"
         animate="visible"
@@ -46,6 +46,7 @@ const Navbar = () => {
 
           {/* MIDDLE NAVBAR */}
           <div className="navbar-center hidden md:flex ">
+            <div></div>
             {NavLinks.map((item) => {
               return (
                 <NavLink to={item.path} key={item.id} className={activeClass}>
