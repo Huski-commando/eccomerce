@@ -10,6 +10,6 @@ import { store } from "./redux/store.js";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <App />
-    <ToastContainer toaster-options="{'time-out': 3000, 'close-button':true, 'position-class':'toast-top-full-width'}" />
+    <ToastContainer toaster-options="{'time-out': 2000, 'close-button':true, 'position-class':'toast-top-full-width'}" />
   </Provider>
 );
