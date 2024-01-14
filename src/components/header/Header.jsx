@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_ACTIVE_USER, SET_REMOVE_USER } from "../../redux/slice/authSlice";
 import AdminButton from "../AdminButton";
-import AdminOnlyRoute from "../hoc/AdminOnlyRoute";
+import { AdminOnlyLink } from "../admin/AdminOnlyRoute";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const Header = () => {
       .then(() => {
         navigate("/");
         toast.warning("User Logged out...");
+        localStorage.removeItem("allowedUsers");
       })
       .catch((error) => {
         toast.error(error.message);
@@ -82,9 +83,9 @@ const Header = () => {
             initial="hidden"
             animate="visible"
           >
-            <AdminOnlyRoute>
+            <AdminOnlyLink>
               <AdminButton />
-            </AdminOnlyRoute>
+            </AdminOnlyLink>
 
             {isLoggedIn ? (
               <h1 className="text-center text-sm">Hi {userName}</h1>
