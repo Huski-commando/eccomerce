@@ -7,7 +7,7 @@ const Admin = () => {
   return (
     <>
       <Header />
-      <div className="flex ">
+      <div className="flex gap-10 justify-center bg-neutral-content px-6 h-[100vh]">
         <AdminNavbar />
         <Outlet />
       </div>

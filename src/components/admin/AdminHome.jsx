@@ -1,7 +1,12 @@
 import React from "react";
+import Container from "../hoc/Container";
 
 const AdminHome = () => {
-  return <div className=" h-[calc(100vh - 2rem)] mt-8 ">AdminHome</div>;
+  return (
+    <Container className="">
+      <h1>Admin home</h1>
+    </Container>
+  );
 };
 
 export default AdminHome;

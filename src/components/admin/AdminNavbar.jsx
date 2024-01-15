@@ -1,39 +1,50 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Theme from "../header/Theme";
+import Container from "../hoc/Container";
 
 const AdminNavbar = () => {
   const activeNavLinks = ({ isActive }) =>
-    isActive ? "text-red-500" : "text-white";
+    isActive
+      ? "btn text-white bg-neutral text-md font-semibold tracking-widest"
+      : " btn btn-base-content text-md font-semibold hover:bg-neutral tracking-widest";
 
   return (
-    <div className="mt-8 bg-neutral h-[96vh] flex basis-56  border-t-2 border-r-2 border-red-600 shadow-2xl shadow-zinc-900/50">
-      <div className="flex flex-col gap-4 w-full">
-        {/* HEADER */}
-        <div className="uppercase border-b py-2 flex justify-between px-6 items-center">
-          <p className="font-bold text-lg text-white">Admin View</p>
+    <Container className="flex basis-52">
+      <div className="flex flex-col items-center w-full py-4 bg-base-content rounded-md overflow-auto">
+        {/* logo */}
+        <div className="flex justify-between w-full border-b border-black py-4 px-3 text-secondary">
+          <p className="font-bold text-lg text-black tracking-wide">
+            Admin View
+          </p>
           <Theme />
         </div>
-
-        <div className="flex flex-col gap-8 pl-8 pt-4">
-          <NavLink to="" className="text-white">
+        {/* nav items */}
+        <div className="py-4 flex flex-col gap-6 px-4">
+          <NavLink
+            to=""
+            className="btn btn-base-content text-md font-semibold tracking-widest"
+          >
             Admin Home
           </NavLink>
           <NavLink to="addProduct" className={activeNavLinks}>
-            Add Products
+            Add Product
           </NavLink>
           <NavLink to="viewProducts" className={activeNavLinks}>
             View Products
           </NavLink>
           <NavLink to="viewOrders" className={activeNavLinks}>
-            Admin Orders
+            View ORders
           </NavLink>
-          <NavLink to="/" className="text-white">
-            Back to User View
+          <NavLink
+            to="/"
+            className={`btn btn-base-content text-md font-normal hover:bg-neutral tracking-widest`}
+          >
+            Back to Customer View
           </NavLink>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
