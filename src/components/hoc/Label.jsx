@@ -2,7 +2,7 @@ import React from "react";
 
 const Label = ({ children, className }) => {
   return (
-    <label className={`${className} text-black font-semibold`}>
+    <label className={`${className} text-secondary font-semibold`}>
       {children}
     </label>
   );

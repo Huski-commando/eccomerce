@@ -63,7 +63,6 @@ const AddProducts = () => {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
         setUploadProgress(progress);
-        console.log("Upload is " + progress + "% done");
       },
       (error) => {
         toast.error(error.message);
@@ -88,8 +87,8 @@ const AddProducts = () => {
   return (
     <>
       <Container>
-        <div className="bg-base-content w-full h-full rounded-md px-6 py-6 text-neutral overflow-auto">
-          <h1 className="text-2xl  font-semibold underline py-2 px-4 tracking-wider">
+        <div className="bg-base-100 w-full h-full rounded-md px-6 py-6 text-neutral overflow-auto">
+          <h1 className="text-2xl font-semibold underline py-2 px-4 tracking-wider text-secondary">
             Add New Product
           </h1>
 
@@ -148,7 +147,7 @@ const AddProducts = () => {
                 <Label className="tracking-wider">Product Category:</Label>
                 <div className="flex flex-col gap-1">
                   <select
-                    className="select select-accent w-full bg-neutral-content text-accent-content tracking-widest"
+                    className="select w-full bg-neutral-content text-accent-content tracking-widest"
                     {...register("category")}
                   >
                     <option value="" disabled>
@@ -156,7 +155,11 @@ const AddProducts = () => {
                     </option>
                     {categories.map((category) => {
                       return (
-                        <option value={category.name} key={category.id}>
+                        <option
+                          value={category.name}
+                          key={category.id}
+                          className="text-neutral"
+                        >
                           {category.name}
                         </option>
                       );

@@ -10,11 +10,11 @@ const AdminNavbar = () => {
       : " btn btn-base-content text-md font-semibold hover:bg-neutral tracking-widest";
 
   return (
-    <Container className="flex basis-52">
-      <div className="flex flex-col items-center w-full py-4 bg-base-content rounded-md overflow-auto">
+    <Container className="hidden md:flex md:basis-52 xl:w-64">
+      <div className="flex flex-col items-center w-full py-4 bg-base-100 rounded-md overflow-auto">
         {/* logo */}
         <div className="flex justify-between w-full border-b border-black py-4 px-3 text-secondary">
-          <p className="font-bold text-lg text-black tracking-wide">
+          <p className="font-bold text-xl text-primary tracking-wide">
             Admin View
           </p>
           <Theme />
