@@ -14,6 +14,9 @@ const AdminViewProductLoader = () => {
       <ViewProductSkeleton />
       <ViewProductSkeleton />
       <ViewProductSkeleton />
+      <ViewProductSkeleton />
+      <ViewProductSkeleton />
+      <ViewProductSkeleton />
     </div>
   );
 };

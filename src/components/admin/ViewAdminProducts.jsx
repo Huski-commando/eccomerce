@@ -43,7 +43,7 @@ const ViewAdminProducts = () => {
   return (
     <Container className="bg-base-100 overflow-auto">
       <>
-        <div className="sm:w-[500px] lg:w-[800px] xl:w-[1200px]">
+        <div className="sm:w-[500px] lg:w-[800px] xl:w-[1400px]">
           <ProductTable products={products} />
         </div>
         {isLoading && <AdminViewProductLoader />}

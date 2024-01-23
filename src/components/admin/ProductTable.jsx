@@ -15,7 +15,7 @@ const ProductTable = ({ products }) => {
   //   console.log(products);
   return (
     <>
-      <TableContainer sx={{ maxHeight: 800 }}>
+      <TableContainer sx={{ maxHeight: 1200 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
