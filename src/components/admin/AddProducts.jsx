@@ -7,10 +7,13 @@ import Label from "../hoc/Label";
 import { DevTool } from "@hookform/devtools";
 import { nanoid } from "nanoid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../../firebase/config";
+import { db, storage } from "../../firebase/config";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
+import { addDoc, collection } from "firebase/firestore";
+import Loader from "../Loader";
+import { useNavigate } from "react-router-dom";
 
 const schema = yup.object({
   productName: yup.string().required("Product name is required!"),
@@ -31,6 +34,8 @@ const AddProducts = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [imageLink, setImageLink] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -46,7 +51,7 @@ const AddProducts = () => {
     resolver: yupResolver(schema),
   });
 
-  const { register, setValue, control, formState, handleSubmit } = form;
+  const { register, setValue, control, formState, handleSubmit, reset } = form;
   const { errors, isSubmitting } = formState;
 
   const handleImageChange = (e) => {
@@ -71,7 +76,7 @@ const AddProducts = () => {
       () => {
         setIsUploading(false);
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
+          // console.log("File available at", downloadURL);
           setImageLink(downloadURL);
           setValue("imageLink", downloadURL);
           toast.success("Image uploaded successfully...");
@@ -80,12 +85,50 @@ const AddProducts = () => {
     );
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+    setIsLoading(true);
+
+    try {
+      const {
+        productName,
+        price,
+        quantity,
+        category,
+        brand,
+        imageLink,
+        description,
+      } = data;
+
+      // console.log();
+      const docRef = await addDoc(collection(db, "products"), {
+        id: nanoid(),
+        productName,
+        price,
+        quantity,
+        category,
+        brand,
+        imageLink,
+        description,
+      });
+      toast.success("Product uploaded successfully.");
+      reset();
+      setIsLoading(false);
+      setImageLink();
+      setIsUploading(false);
+      setUploadProgress(0);
+      navigate("/admin/viewProducts");
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+      setIsLoading(false);
+    }
   };
 
   return (
     <>
+      {isLoading && <Loader />}
+
       <Container>
         <div className="bg-base-100 w-full h-full rounded-md px-6 py-6 text-neutral overflow-auto">
           <h1 className="text-2xl font-semibold underline py-2 px-4 tracking-wider text-secondary">
