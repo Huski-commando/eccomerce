@@ -75,4 +75,3 @@ export const borderVariants = {
   hidden: { borderBottomWidth: 0 },
   visible: { hover: { borderBottomWidth: 2 } },
 };
-export const bottomNavVariants = {};
