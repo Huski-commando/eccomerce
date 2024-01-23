@@ -44,7 +44,15 @@ const ProductTable = ({ products }) => {
               } = product;
               return (
                 <TableRow key={id}>
-                  <TableCell>{index + 1}</TableCell>
+                  <TableCell
+                    sx={{
+                      letterSpacing: "1px",
+                      color: "grey",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {index + 1}
+                  </TableCell>
                   <TableCell>
                     <div style={{ width: "60px", height: "50px" }}>
                       <img
@@ -54,11 +62,23 @@ const ProductTable = ({ products }) => {
                       />
                     </div>
                   </TableCell>
-                  <TableCell sx={{ width: "200px" }}>{productName}</TableCell>
-                  <TableCell>{brand}</TableCell>
-                  <TableCell>{category}</TableCell>
-                  <TableCell>&#x20B9; {price}</TableCell>
-                  <TableCell>{quantity}</TableCell>
+                  <TableCell
+                    sx={{ width: "200px", letterSpacing: "1px", color: "grey" }}
+                  >
+                    {productName}
+                  </TableCell>
+                  <TableCell sx={{ letterSpacing: "1px", color: "grey" }}>
+                    {brand}
+                  </TableCell>
+                  <TableCell sx={{ letterSpacing: "1px", color: "grey" }}>
+                    {category}
+                  </TableCell>
+                  <TableCell sx={{ letterSpacing: "1px", color: "grey" }}>
+                    &#x20B9; {price}
+                  </TableCell>
+                  <TableCell sx={{ letterSpacing: "1px", color: "grey" }}>
+                    {quantity}
+                  </TableCell>
                   <TableCell>
                     <div className="flex gap-3">
                       <Link to={`/admin/editProduct`}>
