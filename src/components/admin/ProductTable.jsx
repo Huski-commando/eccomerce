@@ -10,9 +10,20 @@ import {
   TableRow,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const ProductTable = ({ products }) => {
+const ProductTable = ({ products, deleteSingleProduct }) => {
   //   console.log(products);
+
+  const deleteProduct = (id, imageLink) => {
+    try {
+      console.log(id, imageLink);
+
+      deleteSingleProduct(id, imageLink);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <>
       <TableContainer sx={{ maxHeight: 1200 }}>
@@ -91,6 +102,7 @@ const ProductTable = ({ products }) => {
                       <MdDeleteForever
                         size="20"
                         className="cursor-pointer text-red-600"
+                        onClick={() => deleteProduct(id, imageLink)}
                       />
                     </div>
                   </TableCell>

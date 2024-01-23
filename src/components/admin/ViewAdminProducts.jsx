@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Container from "../hoc/Container";
 import { toast } from "react-toastify";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { db } from "../../firebase/config";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import { db, storage } from "../../firebase/config";
 import ProductTable from "./ProductTable";
-import Loader from "../Loader";
-import ViewProductSkeleton from "../../utilities/skeletonLoaders/ViewProductSkeleton";
 import AdminViewProductLoader from "../../utilities/skeletonLoaders/AdminViewProductLoader";
+import { deleteObject, ref } from "firebase/storage";
 
 const ViewAdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -39,12 +45,29 @@ const ViewAdminProducts = () => {
   }, []);
 
   // console.log(products);
+  const deleteSingleProduct = async (id, imageLink) => {
+    try {
+      await deleteDoc(doc(db, "products", id));
+
+      // Create a reference to the file to delete
+      const storageRef = ref(storage, imageLink);
+
+      // Delete the file
+      await deleteObject(storageRef);
+      toast.success("Product deleted Successfully.");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <Container className="bg-base-100 overflow-auto">
       <>
         <div className="sm:w-[500px] lg:w-[800px] xl:w-[1400px]">
-          <ProductTable products={products} />
+          <ProductTable
+            products={products}
+            deleteProduct={deleteSingleProduct}
+          />
         </div>
         {isLoading && <AdminViewProductLoader />}
       </>
