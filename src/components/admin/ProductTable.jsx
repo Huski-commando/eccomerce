@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import {
@@ -11,22 +11,40 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Notiflix from "notiflix";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db, storage } from "../../firebase/config";
+import { deleteObject, ref } from "firebase/storage";
 
-const ProductTable = ({ products, deleteSingleProduct }) => {
+const ProductTable = ({ products, deleteProduct }) => {
   //   console.log(products);
 
-  const deleteProduct = (id, imageLink) => {
-    try {
-      console.log(id, imageLink);
+  // delete confirm
+  const confirmDelete = useCallback((id, imageLink) => {
+    Notiflix.Confirm.show(
+      "Delete Product!!!",
+      "You are about to delete this product permanently.",
+      "Delete",
+      "Cancel",
+      function okCb() {
+        deleteProduct(id, imageLink);
+      },
+      function cancelCb() {
+        console.log("Cancelled delete");
+      },
+      {
+        width: "320px",
+        borderRadius: "3px",
+        titleColor: "red",
+        okButtonBackground: "red",
+        cssAnimationStyle: "zoom",
+      }
+    );
+  }, []);
 
-      deleteSingleProduct(id, imageLink);
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
   return (
     <>
-      <TableContainer sx={{ maxHeight: 1200 }}>
+      <TableContainer sx={{ maxHeight: 800 }}>
         <Table stickyHeader>
           <TableHead>
             <TableRow>
@@ -74,7 +92,11 @@ const ProductTable = ({ products, deleteSingleProduct }) => {
                     </div>
                   </TableCell>
                   <TableCell
-                    sx={{ width: "200px", letterSpacing: "1px", color: "grey" }}
+                    sx={{
+                      width: "200px",
+                      letterSpacing: "1px",
+                      color: "grey",
+                    }}
                   >
                     {productName}
                   </TableCell>
@@ -102,7 +124,7 @@ const ProductTable = ({ products, deleteSingleProduct }) => {
                       <MdDeleteForever
                         size="20"
                         className="cursor-pointer text-red-600"
-                        onClick={() => deleteProduct(id, imageLink)}
+                        onClick={() => confirmDelete(id, imageLink)}
                       />
                     </div>
                   </TableCell>

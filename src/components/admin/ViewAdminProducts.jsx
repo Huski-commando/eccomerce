@@ -10,9 +10,21 @@ import {
   query,
 } from "firebase/firestore";
 import { db, storage } from "../../firebase/config";
-import ProductTable from "./ProductTable";
+// import ProductTable from "./ProductTable";
 import AdminViewProductLoader from "../../utilities/skeletonLoaders/AdminViewProductLoader";
 import { deleteObject, ref } from "firebase/storage";
+import { MdDeleteForever } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import ProductTable from "./ProductTable";
 
 const ViewAdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -22,21 +34,19 @@ const ViewAdminProducts = () => {
     setIsLoading(true);
     try {
       const productsRef = collection(db, "products");
-      const q = query(productsRef);
+      const q = query(productsRef, orderBy("createdAt", "desc")); // Order by createdAt in descending order
 
       onSnapshot(q, (snapshot) => {
-        const updatedProducts = snapshot?.docs?.map((doc) => ({
+        const updatedProducts = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setProducts(updatedProducts);
         setIsLoading(false);
-        // console.log(snapshot);
       });
     } catch (error) {
       setIsLoading(false);
       toast.error(error.message);
-      setIsLoading(false);
     }
   };
 
@@ -45,31 +55,41 @@ const ViewAdminProducts = () => {
   }, []);
 
   // console.log(products);
+
   const deleteSingleProduct = async (id, imageLink) => {
+    // console.log();
     try {
+      console.log("Deleting document from Fire store:", id);
       await deleteDoc(doc(db, "products", id));
 
       // Create a reference to the file to delete
-      const storageRef = ref(storage, imageLink);
-
+      const productRef = ref(storage, imageLink);
       // Delete the file
-      await deleteObject(storageRef);
+      await deleteObject(productRef);
+
       toast.success("Product deleted Successfully.");
     } catch (error) {
       toast.error(error.message);
+      console.log(error.message);
     }
   };
 
   return (
     <Container className="bg-base-100 overflow-auto">
       <>
-        <div className="sm:w-[500px] lg:w-[800px] xl:w-[1400px]">
-          <ProductTable
-            products={products}
-            deleteProduct={deleteSingleProduct}
-          />
-        </div>
         {isLoading && <AdminViewProductLoader />}
+        <div className="sm:w-[500px] lg:w-[800px] xl:w-[1400px]">
+          {products.length === 0 ? (
+            <h1 className="text-center mt-10 font-bold text-lg tracking-wider">
+              No Product Found
+            </h1>
+          ) : (
+            <ProductTable
+              products={products}
+              deleteProduct={deleteSingleProduct}
+            />
+          )}
+        </div>
       </>
     </Container>
   );
