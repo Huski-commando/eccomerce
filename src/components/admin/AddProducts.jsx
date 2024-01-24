@@ -108,7 +108,7 @@ const AddProducts = () => {
         brand,
         imageLink,
         description,
-        createdAt: new Date(),
+        createdAt: Timestamp.now().toDate(),
       });
       toast.success("Product uploaded successfully.");
       reset();

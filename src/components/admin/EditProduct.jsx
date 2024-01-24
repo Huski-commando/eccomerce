@@ -13,7 +13,9 @@ import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import { addDoc, collection } from "firebase/firestore";
 import Loader from "../Loader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectProducts } from "../../redux/slice/productSlice";
 
 const schema = yup.object({
   productName: yup.string().required("Product name is required!"),
@@ -36,6 +38,12 @@ const EditProduct = () => {
   const [imageLink, setImageLink] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  const products = useSelector(selectProducts);
+  console.log(products);
+
+  const id = useParams();
+  console.log(id);
 
   const form = useForm({
     defaultValues: {
@@ -101,16 +109,7 @@ const EditProduct = () => {
       } = data;
 
       // console.log();
-      const docRef = await addDoc(collection(db, "products"), {
-        id: nanoid(),
-        productName,
-        price,
-        quantity,
-        category,
-        brand,
-        imageLink,
-        description,
-      });
+
       toast.success("Product uploaded successfully.");
       reset();
       setIsLoading(false);

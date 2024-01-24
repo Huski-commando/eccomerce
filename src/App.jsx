@@ -105,7 +105,7 @@ const router = createBrowserRouter([
         element: <AdminOrders />,
       },
       {
-        path: "editProduct",
+        path: "editProduct/:id",
         element: <EditProduct />,
       },
     ],

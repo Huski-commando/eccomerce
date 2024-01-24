@@ -13,22 +13,15 @@ import { db, storage } from "../../firebase/config";
 // import ProductTable from "./ProductTable";
 import AdminViewProductLoader from "../../utilities/skeletonLoaders/AdminViewProductLoader";
 import { deleteObject, ref } from "firebase/storage";
-import { MdDeleteForever } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
-import {
-  TableContainer,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+
 import ProductTable from "./ProductTable";
+import { useDispatch } from "react-redux";
+import { STORE_PRODUCTS } from "../../redux/slice/productSlice";
 
 const ViewAdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const getProducts = () => {
     setIsLoading(true);
@@ -37,12 +30,17 @@ const ViewAdminProducts = () => {
       const q = query(productsRef, orderBy("createdAt", "desc")); // Order by createdAt in descending order
 
       onSnapshot(q, (snapshot) => {
-        const updatedProducts = snapshot.docs.map((doc) => ({
+        const allProducts = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setProducts(updatedProducts);
+        setProducts(allProducts);
         setIsLoading(false);
+        dispatch(
+          STORE_PRODUCTS({
+            products: allProducts,
+          })
+        );
       });
     } catch (error) {
       setIsLoading(false);
