@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../hoc/Container";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -37,24 +37,41 @@ const EditProduct = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [imageLink, setImageLink] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [productEdit, setProductEdit] = useState();
   const navigate = useNavigate();
 
-  const products = useSelector(selectProducts);
-  console.log(products);
+  const { id } = useParams();
 
-  const id = useParams();
-  console.log(id);
+  const products = useSelector(selectProducts);
+  // console.log(products);
+
+  const singleProduct = products.find((product) => product.id === id);
+  sessionStorage.setItem("singleProduct", JSON.stringify(singleProduct));
+  let storedProduct = sessionStorage.getItem("singleProduct");
+  storedProduct = JSON.parse(storedProduct);
+  setProductEdit(storedProduct);
+
+  console.log(productEdit);
+
+  const {
+    productName,
+    brand,
+    category,
+    description,
+    // imageLink,
+    price,
+    quantity,
+  } = productEdit;
 
   const form = useForm({
     defaultValues: {
-      productName: "",
-      imageUrl: "",
-      price: 0,
-      quantity: 0,
-      category: "",
-      brand: "",
-      description: "",
-      imageLink: "",
+      productName: productName,
+      price: price,
+      quantity: quantity,
+      category: category,
+      brand: brand,
+      description: description,
+      imageLink: imageLink,
     },
     resolver: yupResolver(schema),
   });

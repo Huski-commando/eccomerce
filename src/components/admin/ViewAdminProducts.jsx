@@ -52,7 +52,7 @@ const ViewAdminProducts = () => {
     getProducts();
   }, []);
 
-  // console.log(products);
+  console.log(products);
 
   const deleteSingleProduct = async (id, imageLink) => {
     // console.log();
