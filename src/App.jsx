@@ -10,7 +10,6 @@ import {
   AddProducts,
   ViewAdminProducts,
   AdminOrders,
-  EditProduct,
 } from "./components/admin/";
 
 const OrderHistory = lazy(() => import("./pages/OrderHistory"));
@@ -93,7 +92,7 @@ const router = createBrowserRouter([
         errorElement: <AdminError />,
       },
       {
-        path: "addProduct",
+        path: "addProduct/:id",
         element: <AddProducts />,
       },
       {
@@ -103,10 +102,6 @@ const router = createBrowserRouter([
       {
         path: "viewOrders",
         element: <AdminOrders />,
-      },
-      {
-        path: "editProduct/:id",
-        element: <EditProduct />,
       },
     ],
   },

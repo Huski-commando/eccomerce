@@ -114,7 +114,7 @@ const ProductTable = ({ products, deleteProduct }) => {
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-3">
-                      <Link to={`/admin/editProduct/${id}`}>
+                      <Link to={`/admin/addProduct/${id}`}>
                         <FaEdit
                           size="20"
                           className="cursor-pointer text-green-700"

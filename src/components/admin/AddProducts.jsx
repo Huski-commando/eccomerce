@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddProductSkeleton from "../../utilities/skeletonLoaders/AppProductSkeleton";
 import Container from "../hoc/Container";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../firebase/config";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectProduct } from "../../redux/slice/productSlice";
 
 const initialState = {
   productName: "",
@@ -25,8 +28,53 @@ const categories = [
 ];
 
 const AddProducts = () => {
+  const { id } = useParams();
+
+  // get the products from redux store
+  const products = useSelector(selectProduct);
+  // console.log(products);
+
+  const productEdit = products.find((item) => item.id === id);
+
   const [isLoading, setIsLoading] = useState(false);
-  const [product, setProduct] = useState(initialState);
+  const navigate = useNavigate();
+
+  const detectForm = (id, f1, f2) => {
+    if (id === "ADD") {
+      return f1;
+    }
+    return f2;
+  };
+  // --------------------------------------------------------------------------------------------------------------------
+
+  // STORING THE DATA IN SESSION STORAGE AND FETCHING IT.
+
+  useEffect(() => {
+    // Set productEdit in sessionStorage when it becomes available
+    if (productEdit) {
+      const serializedProduct = JSON.stringify(productEdit);
+      // console.log("Serialized Product:", serializedProduct);
+
+      sessionStorage.setItem("product", serializedProduct);
+    }
+  }, [productEdit]);
+
+  const storedProductString = sessionStorage.getItem("product");
+  // console.log("Stored Product String:", storedProductString);
+
+  const newProduct = JSON.parse(storedProductString);
+  // console.log("Parsed Product:", newProduct);
+
+  // ---------------------------------------------------------------------------------------------------------
+
+  const [product, setProduct] = useState(() => {
+    const newState = detectForm(
+      id,
+      { ...initialState },
+      productEdit || newProduct
+    );
+    return newState;
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -81,17 +129,53 @@ const AddProducts = () => {
       toast.error(error.message);
     }
   };
+  const editProduct = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    if (product.imageLink !== newProduct.imageLink || productEdit.imageLink) {
+      const productRef = ref(
+        storage,
+        newProduct.imageLink || productEdit.imageLink
+      );
+      // Delete the file
+      await deleteObject(productRef);
+    }
+
+    try {
+      // Add a new document in collection "cities"
+      await setDoc(doc(db, "products", id), {
+        productName: product.productName,
+        price: product.price,
+        quantity: product.quantity,
+        category: product.category,
+        brand: product.brand,
+        imageLink: product.imageLink,
+        description: product.description,
+        createdAt: newProduct.createdAt || productEdit.createdAt,
+        editedAt: Timestamp.now().toDate(),
+      });
+
+      setIsLoading(false);
+      toast.success(`Product got updated.`);
+      navigate("/admin/viewProducts");
+    } catch (error) {
+      setIsLoading(false);
+      toast.error(error.message);
+      // console.log(error.message);
+    }
+  };
 
   return (
     <Container>
       <div className="bg-base-100 w-full h-full rounded-md px-6 py-6 text-neutral overflow-auto">
         <h1 className="text-2xl font-semibold underline py-2 px-4 tracking-wider text-secondary">
-          Add New Product
+          {detectForm(id, "Add New Product", "Edit Product")}
         </h1>
         {isLoading ? (
           <AddProductSkeleton />
         ) : (
-          <form onSubmit={addProduct}>
+          <form onSubmit={detectForm(id, addProduct, editProduct)}>
             <div className="grid grid-cols-1 lg:grid-cols-3 text-neutral gap-6 items-center">
               {/* product name */}
               <div className="flex flex-col justify-center gap-2 p-2">
@@ -102,6 +186,7 @@ const AddProducts = () => {
                   type="text"
                   placeholder="Product Name"
                   name="productName"
+                  required
                   value={product.productName}
                   onChange={(e) => handleInputChange(e)}
                   className="input input-bordered text-accent-content bg-neutral-content tracking-widest"
@@ -116,6 +201,7 @@ const AddProducts = () => {
                   type="number"
                   placeholder="Product Price"
                   name="price"
+                  required
                   value={product.price}
                   onChange={(e) => handleInputChange(e)}
                   className="input input-bordered text-accent-content bg-neutral-content tracking-widest"
@@ -206,6 +292,7 @@ const AddProducts = () => {
                     placeholder="Product Image URL"
                     name="imageLink"
                     value={product.imageLink}
+                    required
                     className="bg-neutral-content border p-2 rounded-md text-accent-content tracking-widest"
                     disabled
                   />
@@ -227,7 +314,7 @@ const AddProducts = () => {
               </div>
             </div>
             <button className="btn btn-primary ml-2 mt-4 tracking-wider uppercase">
-              Submit
+              {detectForm(id, "Add Product", "Update Product")}
             </button>
           </form>
         )}
