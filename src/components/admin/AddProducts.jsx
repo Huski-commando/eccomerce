@@ -3,7 +3,12 @@ import AddProductSkeleton from "../../utilities/skeletonLoaders/AppProductSkelet
 import Container from "../hoc/Container";
 import { nanoid } from "nanoid";
 import { toast } from "react-toastify";
-import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { db, storage } from "../../firebase/config";
 import { Timestamp, addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { useParams, useNavigate } from "react-router-dom";
@@ -106,7 +111,7 @@ const AddProducts = () => {
 
   const addProduct = async (e) => {
     e.preventDefault();
-    console.log(product);
+    // console.log(product);
 
     setIsLoading(true);
 

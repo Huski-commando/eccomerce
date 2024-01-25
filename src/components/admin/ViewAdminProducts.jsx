@@ -57,7 +57,7 @@ const ViewAdminProducts = () => {
   const deleteSingleProduct = async (id, imageLink) => {
     // console.log();
     try {
-      console.log("Deleting document from Fire store:", id);
+      // console.log("Deleting document from Fire store:", id);
       await deleteDoc(doc(db, "products", id));
 
       // Create a reference to the file to delete
