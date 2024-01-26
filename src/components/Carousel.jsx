@@ -32,13 +32,13 @@ const Carousel = () => {
         {carouselImages.map((carouselImage) => {
           return (
             <SwiperSlide
-              className="h-[calc(100vh-60vh)] md:h-[calc(100vh-55vh)] xl:h-[calc(100vh-25vh)] "
+              className="h-[calc(100vh-60vh)] md:h-[calc(100vh-55vh)] xl:h-[calc(100vh-25vh)]"
               key={carouselImage.id}
             >
               <img
                 src={carouselImage.image}
                 alt={carouselImage.name}
-                className="w-full h-full object-fill 2xl:object-cover"
+                className="w-full h-full object-fill 2xl:object-cover rounded-md"
               />
             </SwiperSlide>
           );
