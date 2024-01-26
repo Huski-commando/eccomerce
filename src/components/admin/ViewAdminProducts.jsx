@@ -9,55 +9,27 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
+import { useSelector, useDispatch } from "react-redux";
 import { db, storage } from "../../firebase/config";
 // import ProductTable from "./ProductTable";
 import AdminViewProductLoader from "../../utilities/skeletonLoaders/AdminViewProductLoader";
 import { deleteObject, ref } from "firebase/storage";
 
 import ProductTable from "./ProductTable";
-import { useDispatch } from "react-redux";
-import { STORE_PRODUCTS } from "../../redux/slice/productSlice";
+
+import { STORE_PRODUCTS, selectProduct } from "../../redux/slice/productSlice";
+import useFetchCollection from "../../customHooks/useFetchCollection";
 
 const ViewAdminProducts = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-
-  const getProducts = () => {
-    setIsLoading(true);
-    try {
-      const productsRef = collection(db, "products");
-      const q = query(productsRef, orderBy("createdAt", "desc")); // Order by createdAt in descending order
-
-      onSnapshot(q, (snapshot) => {
-        const allProducts = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProducts(allProducts);
-        setIsLoading(false);
-        dispatch(
-          STORE_PRODUCTS({
-            products: allProducts,
-          })
-        );
-      });
-    } catch (error) {
-      setIsLoading(false);
-      toast.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
+  const { data, isLoading } = useFetchCollection("products");
+  const products = data;
 
   // console.log(products);
 
   const deleteSingleProduct = async (id, imageLink) => {
     // console.log();
     try {
-      // console.log("Deleting document from Fire store:", id);
       await deleteDoc(doc(db, "products", id));
 
       // Create a reference to the file to delete

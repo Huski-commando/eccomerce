@@ -19,4 +19,5 @@ export const { STORE_PRODUCTS } = productSlice.actions;
 
 export const selectProduct = (state) => state.product.products;
 
+console.log(selectProduct);
 export default productSlice.reducer;
