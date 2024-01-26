@@ -34,10 +34,11 @@ const categories = [
 
 const AddProducts = () => {
   const { id } = useParams();
+  // console.log(id);
 
   // get the products from redux store
   const products = useSelector(selectProduct);
-  // console.log(products);
+  console.log(products);
 
   const productEdit = products.find((item) => item.id === id);
 
@@ -297,7 +298,6 @@ const AddProducts = () => {
                     placeholder="Product Image URL"
                     name="imageLink"
                     value={product.imageLink}
-                    required
                     className="bg-neutral-content border p-2 rounded-md text-accent-content tracking-widest"
                     disabled
                   />

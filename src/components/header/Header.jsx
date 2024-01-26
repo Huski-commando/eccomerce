@@ -26,7 +26,7 @@ const Header = () => {
         navigate("/");
         toast.warning("User Logged out...");
         localStorage.removeItem("allowedUsers");
-        sessionStorage.removeItem("singleProduct");
+        sessionStorage.removeItem("product");
       })
       .catch((error) => {
         toast.error(error.message);

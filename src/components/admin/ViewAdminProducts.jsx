@@ -1,30 +1,31 @@
 import React, { useEffect, useState } from "react";
-import Container from "../hoc/Container";
 import { toast } from "react-toastify";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
-import { db, storage } from "../../firebase/config";
-// import ProductTable from "./ProductTable";
-import AdminViewProductLoader from "../../utilities/skeletonLoaders/AdminViewProductLoader";
 import { deleteObject, ref } from "firebase/storage";
 
+import Container from "../hoc/Container";
+import { db, storage } from "../../firebase/config";
+import AdminViewProductLoader from "../../utilities/skeletonLoaders/AdminViewProductLoader";
 import ProductTable from "./ProductTable";
-
-import { STORE_PRODUCTS, selectProduct } from "../../redux/slice/productSlice";
+import { STORE_PRODUCTS } from "../../redux/slice/productSlice";
 import useFetchCollection from "../../customHooks/useFetchCollection";
 
 const ViewAdminProducts = () => {
   const dispatch = useDispatch();
   const { data, isLoading } = useFetchCollection("products");
-  const products = data;
 
+  // storing data in redux store
+  useEffect(() => {
+    dispatch(
+      STORE_PRODUCTS({
+        products: data,
+      })
+    );
+  }, [dispatch, data]);
+
+  // fetching data from redux store
+  const products = useSelector((state) => state.product.products);
   // console.log(products);
 
   const deleteSingleProduct = async (id, imageLink) => {
