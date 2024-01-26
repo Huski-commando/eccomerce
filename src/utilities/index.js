@@ -1,4 +1,15 @@
 import { nanoid } from "nanoid";
+import image1 from "../assets/carousel/bg-1.jpg";
+import image2 from "../assets/carousel/bg-2.jpg";
+import image3 from "../assets/carousel/bg-3.jpg";
+import image4 from "../assets/carousel/bg-4.jpg";
+
+export const carouselImages = [
+  { id: nanoid(), image: image1, name: "image1" },
+  { id: nanoid(), image: image2, name: "image2" },
+  { id: nanoid(), image: image3, name: "image3" },
+  { id: nanoid(), image: image4, name: "image4" },
+];
 
 export const NavLinks = [
   {

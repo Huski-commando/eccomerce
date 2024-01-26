@@ -18,7 +18,7 @@ const BottomNavigation = () => {
 
   return (
     <motion.div
-      className="btm-nav bg-base-200 md:hidden"
+      className="btm-nav bg-base-200 md:hidden z-10"
       variants={formVariant}
       initial="hidden"
       animate="visible"

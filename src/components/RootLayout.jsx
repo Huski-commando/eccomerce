@@ -11,7 +11,13 @@ const RootLayout = () => {
     <div>
       <Header />
       <Navbar />
-      {isPageLoading ? <Loader /> : <Outlet />}
+      {isPageLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <Outlet />
+        </>
+      )}
 
       <Footer />
     </div>

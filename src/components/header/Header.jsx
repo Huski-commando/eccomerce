@@ -72,7 +72,7 @@ const Header = () => {
     <>
       {isPageLoading && <Loader />}
       <motion.header
-        className="bg-neutral py-2 text-neutral-content h-8 fixed top-0  w-full"
+        className="bg-neutral py-2 text-neutral-content h-8 fixed top-0 z-10 w-full"
         variants={headerVariants}
         initial="hidden"
         animate="visible"
